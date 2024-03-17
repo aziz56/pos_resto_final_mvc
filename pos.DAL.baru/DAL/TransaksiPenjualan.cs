@@ -16,19 +16,19 @@ namespace pos.DAL.DAL
         {
             return Helper.GetConnectionString();
         }
-        public void InsertPayment(BO.TransaksiPenjualan transaksiPenjualan, BO.MasterMenu masterMenu, BO.MasterPelanggan masterPelanggan,BO.MasterMeja masterMeja)
+        public void InsertPayment(GetTransactionData getTransactionData)
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
                 string strSql = @"sp_penjualan";
                 var param = new
                 {
-                    nama_pelanggan = masterPelanggan.nama_pelanggan,
-                    no_meja = masterMeja.no_meja,
-                    jumlah_pesanan = transaksiPenjualan.jumlah_pesanan,
-                    harga_menu = masterMenu.harga_menu,
-                    nama_menu = masterMenu.nama_menu,
-                    amount = transaksiPenjualan.amount
+                    nama_pelanggan = getTransactionData.nama_pelanggan,
+                    no_meja = getTransactionData.no_meja,
+                    jumlah_pesanan = getTransactionData.jumlah_pesanan,
+                    harga_menu = getTransactionData.harga_menu,
+                    nama_menu = getTransactionData.nama_menu,
+                    amount = getTransactionData.amount
 
 
                 };
@@ -44,17 +44,15 @@ namespace pos.DAL.DAL
             var result = conn.QueryFirstOrDefault<BO.MasterMenu>(strSql, param);
             return result;
         }
-        public IEnumerable<TransaksiPenjualan> GetTransaksiPenjualans()
+        public IEnumerable<GetTransactionData> GetTransaksiPenjualan()
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                string strSql = 
-                var results = conn.Query<BO.TransaksiPenjualan>(strSql);
+                string strSql = @"GetTransactionData";
+                var results = conn.Query<BO.GetTransactionData>(strSql);
                 return results;
             }
         }
-
-
         IEnumerable<BO.TransaksiPenjualan> ICrud<BO.TransaksiPenjualan>.GetAll()
         {
             throw new NotImplementedException();

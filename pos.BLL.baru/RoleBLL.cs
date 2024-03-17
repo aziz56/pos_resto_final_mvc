@@ -12,7 +12,7 @@ namespace pos.BLL
 {
     public class RoleBLL: IRoleBLL
     {
-        IRole roleDAL;
+        private readonly IRole roleDAL;
         public RoleBLL()
         {
             roleDAL = new pos.DAL.DAL.Role();

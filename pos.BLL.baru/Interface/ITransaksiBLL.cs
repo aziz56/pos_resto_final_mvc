@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using pos.BO;
 
 
 namespace pos.BLL.Interface
@@ -9,7 +10,8 @@ namespace pos.BLL.Interface
     {
         void InsertPayment(DTO.TransaksiPenjualanDTO transaksiPenjualanDTO);
 
-        
+        MasterMenu GetHargaByMenu(BO.MasterMenu masterMenu);
+        IEnumerable<BO.GetTransactionData> GetTransaksiPenjualan();
 
     }
 }
