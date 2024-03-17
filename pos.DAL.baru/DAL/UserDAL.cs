@@ -73,9 +73,46 @@ namespace pos.DAL.DAL
                 return result;
             }
         }
-        public User GetAllWithRoles()
+        public IEnumerable<User> GetAllWithRoles()
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                string strSql = @"select * from Users";
+                var results = conn.Query<User>(strSql);
+                foreach (var item in results)
+                {
+                    string strSqlRole = @"select r.* from UsersRoles ur
+                               inner join Roles r on ur.RoleID = r.RoleID
+                               where ur.Username = @Username";
+                    var param = new { Username = item.Username };
+                    var roles = conn.Query<Roles>(strSqlRole, param);
+                    item.Roles = roles;
+                }
+                return results;
+            }
+            
+        }
+        public User GetUserWithRoles(string username)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                string strSql = @"select * from Users where Username=@Username";
+                var param = new { Username = username };
+                var result = conn.QuerySingleOrDefault<User>(strSql, param);
+                if (result != null)
+                {
+
+
+                    string strSqlRole = @"select r.* from UsersRoles ur
+                               inner join Roles r on ur.RoleID = r.RoleID
+                               where ur.Username = @Username";
+                    var paramRole = new { Username = result.Username };
+                    var roles = conn.Query<Roles>(strSqlRole, param);
+                    result.Roles = roles;
+                }
+
+                return result;
+            }
         }
         User ICrud<User>.GetByID(int id)
         {

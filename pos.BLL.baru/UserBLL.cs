@@ -115,12 +115,63 @@ namespace pos.BLL
                 throw new ArgumentException(ex.Message);
             }
         }
-    
+        public IEnumerable<UserDTO> GetAllWithRoles()
+        {
+            var users = _userDAL.GetAllWithRoles();
+            var usersDTO = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                var userDto = new UserDTO
+                {
+                    Username = user.Username,
+                    Password = user.Password
+                };
+                var lstRolesDto = new List<RoleDTO>();
+                var roles = user.Roles;
+                foreach (var role in roles)
+                {
+                    lstRolesDto.Add(new RoleDTO
+                    {
+                        RoleID = role.RoleID,
+                        RoleName = role.RoleName
+                    });
+                }
+            }
+            return usersDTO;
+        }
+        public UserDTO GetUserWithRoles(string username)
+        {
+            var user = _userDAL.GetUserWithRoles(username);
+
+            if (user == null)
+            {
+                throw new ArgumentException("User not found");
+            }
+            var userDto = new UserDTO
+            {
+                Username = user.Username
+            };
+            var lstRolesDto = new List<RoleDTO>();
+            var roles = user.Roles;
+            foreach (var role in roles)
+            {
+                lstRolesDto.Add(new RoleDTO
+                {
+                    RoleID = role.RoleID,
+                    RoleName = role.RoleName
+                });
+            }
+
+            userDto.Roles = lstRolesDto;
+
+            return userDto;
+        }
 
 
 
 
-void IUserBLL.ChangePassword(string name, string newPassword)
+
+        void IUserBLL.ChangePassword(string name, string newPassword)
         {
             throw new NotImplementedException();
         }

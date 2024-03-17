@@ -13,6 +13,9 @@ namespace pos.BLL.Interface
         void Delete(string name);
         void ChangePassword(string name, string newPassword);
         UserDTO LoginMVC(LoginDTO loginDTO);
+        UserDTO GetUserWithRoles(string username);
+        IEnumerable<UserDTO> GetAllWithRoles();
+       
 
     }
 }
