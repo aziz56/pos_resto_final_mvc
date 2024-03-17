@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
             ViewBag.Users = listUsers;
 
             var roles = _roleBLL.GetAllRoles();
-            var listRoles = new SelectList(roles, "RoleName", "RoleName");
+            var listRoles = new SelectList(roles, "RoleID", "RoleName");
             ViewBag.Roles = listRoles;
 
             var usersWithRoles = _userBLL.GetAllWithRoles();

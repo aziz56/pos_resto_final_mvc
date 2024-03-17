@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using pos.BLL.Interface;
+using pos.BLL.DTO;
+using System.Text.Json;
 
 namespace WebApplication1.Controllers
 {
@@ -11,23 +13,27 @@ namespace WebApplication1.Controllers
         private readonly IUserBLL _userBLL;
         private readonly IRoleBLL _roleBLL;
 
-        public HomeController(ILogger<HomeController> logger, IUserBLL userBLL, IRoleBLL roleBLL)
-        {
-            _logger = logger;
-            _userBLL = userBLL;
-            _roleBLL = roleBLL;
-        }
+
 
         public IActionResult Index()
         {
-            var view = _userBLL.GetAllWithRoles();
-            return View(view);
+
+            //cek kalau session ada
+            if (HttpContext.Session.GetString("user") == null)
+            {
+                TempData["message"] = @"<div class='alert alert-danger'><strong>Error!</strong> You must login first !</div>";
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                var user = JsonSerializer.Deserialize<UserDTO>(HttpContext.Session.GetString("user"));
+                ViewBag.message = $"Welcome {user.Username}";
+            }
+            return View();
+
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+ 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

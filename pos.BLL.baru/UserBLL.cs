@@ -115,20 +115,40 @@ namespace pos.BLL
                 throw new ArgumentException(ex.Message);
             }
         }
+        //public IEnumerable<UserDTO> GetAllWithRoles()
+        //{
+        //    var users = _userDAL.GetAllWithRoles();
+        //    var usersDTO = new List<UserDTO>();
+        //    foreach (var user in users)
+        //    {
+        //        var userDto = new UserDTO
+        //        {
+        //            Username = user.Username
+        //        };
+        //        var lstRolesDto = new List<RoleDTO>();
+        //        var roles = user.Roles;
+        //        foreach (var role in roles)
+        //        {
+        //            lstRolesDto.Add(new RoleDTO
+        //            {
+        //                RoleID = role.RoleID,
+        //                RoleName = role.RoleName
+        //            });
+        //        }
+        //    }
+        //    return usersDTO;
+        //}
+
         public IEnumerable<UserDTO> GetAllWithRoles()
         {
             var users = _userDAL.GetAllWithRoles();
             var usersDTO = new List<UserDTO>();
+
             foreach (var user in users)
             {
-                var userDto = new UserDTO
-                {
-                    Username = user.Username,
-                    Password = user.Password
-                };
                 var lstRolesDto = new List<RoleDTO>();
-                var roles = user.Roles;
-                foreach (var role in roles)
+
+                foreach (var role in user.Roles)
                 {
                     lstRolesDto.Add(new RoleDTO
                     {
@@ -136,9 +156,17 @@ namespace pos.BLL
                         RoleName = role.RoleName
                     });
                 }
+
+                usersDTO.Add(new UserDTO
+                {
+                    Username = user.Username,
+                    Roles = lstRolesDto
+                });
             }
+
             return usersDTO;
         }
+
         public UserDTO GetUserWithRoles(string username)
         {
             var user = _userDAL.GetUserWithRoles(username);

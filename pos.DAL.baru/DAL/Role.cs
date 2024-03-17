@@ -22,7 +22,10 @@ namespace pos.DAL.DAL
                 try
                 {
                     conn.Open();
-                    conn.Execute(strSql, new { Username = username, RoleID = roleId });
+                    conn.Execute(strSql, new { 
+                        Username = username,
+                        RoleID = roleId 
+                    });
                 }
                 catch (SqlException sqlEx)
                 {

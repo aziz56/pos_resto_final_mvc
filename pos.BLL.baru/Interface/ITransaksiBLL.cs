@@ -9,5 +9,7 @@ namespace pos.BLL.Interface
     {
         void InsertPayment(DTO.TransaksiPenjualanDTO transaksiPenjualanDTO);
 
+        
+
     }
 }
