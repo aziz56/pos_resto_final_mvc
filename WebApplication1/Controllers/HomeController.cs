@@ -1,21 +1,27 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
+using pos.BLL.Interface;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUserBLL _userBLL;
+        private readonly IRoleBLL _roleBLL;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUserBLL userBLL, IRoleBLL roleBLL)
         {
             _logger = logger;
+            _userBLL = userBLL;
+            _roleBLL = roleBLL;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var view = _userBLL.GetAllWithRoles();
+            return View(view);
         }
 
         public IActionResult Privacy()

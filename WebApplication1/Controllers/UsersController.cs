@@ -33,7 +33,8 @@ namespace WebApplication1.Controllers
             var usersWithRoles = _userBLL.GetAllWithRoles();
             return View(usersWithRoles);
         }
-        public IActionResult AddRole(string username, int RoleID)
+        [HttpPost]
+        public IActionResult Index(string username, int RoleID)
         {
             try
             {

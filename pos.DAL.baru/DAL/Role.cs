@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using pos.BO;
 using pos.DAL.Interface;
 
@@ -11,18 +12,17 @@ namespace pos.DAL.DAL
 {
     public class Role : IRole
     {
-        void IRole.AddUserToRole(string username, int roleId)
+
+
+        public void AddUserToRole(string username, int roleId)
         {
             using (SqlConnection conn = new SqlConnection(Helper.GetConnectionString()))
             {
-                string strSql = @"insert into UserRoles (Username, RoleID) values (@Username, @RoleID)";
-                SqlCommand cmd = new SqlCommand(strSql, conn);
-                cmd.Parameters.AddWithValue("@Username", username);
-                cmd.Parameters.AddWithValue("@RoleID", roleId);
+                string strSql = @"INSERT INTO [UsersRoles] (Username, RoleID) VALUES (@Username, @RoleID)";
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    conn.Execute(strSql, new { Username = username, RoleID = roleId });
                 }
                 catch (SqlException sqlEx)
                 {
@@ -30,6 +30,30 @@ namespace pos.DAL.DAL
                 }
             }
         }
+        //public void AddUserToRole(string username, int roleId)
+        //{
+        //    using (SqlConnection conn = new SqlConnection(Helper.GetConnectionString()))
+        //    {
+        //        string strSql = @"INSERT INTO [UsersRoles](Username, RoleID) values(@Username, @RoleID)";
+        //        var param = new { Username = username, RoleID = roleId };
+        //        try
+        //        {
+        //            int result = conn.Execute(strSql, param);
+        //            if (result != 1)
+        //            {
+        //                throw new Exception("Data tidak berhasil ditambahkan");
+        //            }
+        //        }
+        //        catch (SqlException sqlEx)
+        //        {
+        //            throw new ArgumentException($"{sqlEx.InnerException.Message} - {sqlEx.Number}");
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw new ArgumentException("Kesalahan: " + ex.Message);
+        //        }
+        //    }
+        //}
 
         void ICrud<Roles>.Delete(int id)
         {

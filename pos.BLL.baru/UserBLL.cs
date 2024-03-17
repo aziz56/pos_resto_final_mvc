@@ -183,7 +183,18 @@ namespace pos.BLL
 
         IEnumerable<UserDTO> IUserBLL.GetAll()
         {
-            throw new NotImplementedException();
+            var users = _userDAL.GetAll();
+            var usersDTO = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                usersDTO.Add(new UserDTO
+                {
+                    Username = user.Username,
+
+                });
+            }
+            return usersDTO;
+
         }
     }
     }

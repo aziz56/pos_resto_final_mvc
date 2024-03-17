@@ -14,7 +14,7 @@ namespace pos.DAL.DAL
     {
         private string GetConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["pos_restoConnectionString"].ConnectionString;
+            return Helper.GetConnectionString();
         }
         public void Delete(int id)
         {
@@ -24,13 +24,12 @@ namespace pos.DAL.DAL
 
         public IEnumerable<User> GetAll()
         {
-            using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                string strSql = @"select * from Users";
+                var strSql = @"select * from [User] order by Username";
                 var results = conn.Query<User>(strSql);
                 return results;
             }
-           
         }
         public void Insert(User entity)
         {
@@ -52,8 +51,8 @@ namespace pos.DAL.DAL
                 {
                     throw new Exception("Invalid Username or Password");
                 }
-                var strSqlRole = @"select r.* from UsersRoles ur
-                               inner join Roles r on ur.RoleID = r.RoleID
+                var strSqlRole = @"select r.* from [UsersRoles] ur
+                               inner join [Roles] r on ur.RoleID = r.RoleID
                                where ur.Username = @Username";
                 var roles = conn.Query<Roles>(strSqlRole, param);
                 result.Roles = roles;
@@ -67,7 +66,7 @@ namespace pos.DAL.DAL
         {
             using(SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                string strSql = @"select * from Users where Username=@Username";
+                string strSql = @"select * from [User] where Username=@Username";
                 var param = new {Username = username};
                 var result = conn.QuerySingleOrDefault<User>(strSql, param);
                 return result;
@@ -77,12 +76,12 @@ namespace pos.DAL.DAL
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                string strSql = @"select * from Users";
+                string strSql = @"select * from [User]";
                 var results = conn.Query<User>(strSql);
                 foreach (var item in results)
                 {
-                    string strSqlRole = @"select r.* from UsersRoles ur
-                               inner join Roles r on ur.RoleID = r.RoleID
+                    string strSqlRole = @"select r.* from [UsersRoles] ur
+                               inner join [Roles] r on ur.RoleID = r.RoleID
                                where ur.Username = @Username";
                     var param = new { Username = item.Username };
                     var roles = conn.Query<Roles>(strSqlRole, param);
@@ -96,15 +95,15 @@ namespace pos.DAL.DAL
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                string strSql = @"select * from Users where Username=@Username";
+                string strSql = @"select * from [User] where Username=@Username";
                 var param = new { Username = username };
                 var result = conn.QuerySingleOrDefault<User>(strSql, param);
                 if (result != null)
                 {
 
 
-                    string strSqlRole = @"select r.* from UsersRoles ur
-                               inner join Roles r on ur.RoleID = r.RoleID
+                    string strSqlRole = @"select r.* from [UsersRoles] ur
+                               inner join [Roles] r on ur.RoleID = r.RoleID
                                where ur.Username = @Username";
                     var paramRole = new { Username = result.Username };
                     var roles = conn.Query<Roles>(strSqlRole, param);
@@ -129,10 +128,6 @@ namespace pos.DAL.DAL
             throw new NotImplementedException();
         }
 
-        IEnumerable<User> IUserDAL.GetAllWithRoles()
-        {
-            throw new NotImplementedException();
-        }
 
         void IUserDAL.ChangePassword(string username, string newPassword)
         {
