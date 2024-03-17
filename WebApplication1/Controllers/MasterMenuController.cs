@@ -43,21 +43,21 @@ namespace pos_resto.Controllers
         //    return View();
         //}
         // GET: MasterMenuController
-        public IActionResult Index(string search, int pageNumber = 1, int pageSize = 10, string act = "")
+        public IActionResult Index(string search="", int pageNumber = 1, int pageSize = 5, string act = "")
         {
-            if (HttpContext.Session.GetString("role") == null)
-            {
-                // Handle the case where user is not logged in
-                TempData["message"] = @"<div class='alert alert-danger'><strong>Error!</strong> Anda harus login terlebih dahulu!</div>";
-                return RedirectToAction("Index", "Login");
-            }
+            //if (HttpContext.Session.GetString("role") == null)
+            //{
+            //    // Handle the case where user is not logged in
+            //    TempData["message"] = @"<div class='alert alert-danger'><strong>Error!</strong> Anda harus login terlebih dahulu!</div>";
+            //    return RedirectToAction("Index", "Login");
+            //}
 
-            var user = JsonSerializer.Deserialize<UserDTO>(HttpContext.Session.GetString("user"));
-            if (!Auth.CheckRole("reader,admin,contributor", user.Roles.ToList()))
-            {
-                TempData["message"] = @"<div class='alert alert-danger'><strong>Error!</strong> Anda tidak memiliki hak akses!</div>";
-                return RedirectToAction("Index", "Home");
-            }
+            //var user = JsonSerializer.Deserialize<UserDTO>(HttpContext.Session.GetString("user"));
+            //if (!Auth.CheckRole("reader,admin,contributor", user.Roles.ToList()))
+            //{
+            //    TempData["message"] = @"<div class='alert alert-danger'><strong>Error!</strong> Anda tidak memiliki hak akses!</div>";
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             if (TempData["message"] != null)
             {
@@ -65,7 +65,8 @@ namespace pos_resto.Controllers
             }
 
             ViewData["search"] = search;
-
+            
+            var cari = _masterMenu.GetByName(search);
             var models = _masterMenu.GetWithPaging(pageNumber, pageSize, search);
             var maxsize = _masterMenu.GetCountMenu(search);
 
@@ -114,9 +115,13 @@ namespace pos_resto.Controllers
 
 
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        // GET: MasterMenuController/Create
-        public IActionResult Insert(MasterMenuDTO masterMenuDTO)
+        [HttpPost]
+        public IActionResult Create(MasterMenuDTO masterMenuDTO)
         {
             try
             {
@@ -130,19 +135,7 @@ namespace pos_resto.Controllers
         }
 
         // POST: MasterMenuController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+ 
 
         // GET: MasterMenuController/Edit/5
         public ActionResult Edit(int id)

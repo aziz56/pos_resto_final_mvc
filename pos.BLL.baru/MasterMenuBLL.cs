@@ -26,7 +26,6 @@ namespace pos.BLL
             try { 
             var masterMenu = new pos.BO.MasterMenu
             {
-                id_menu = entity.id_menu,
                 nama_menu = entity.nama_menu,
                 harga_menu = entity.harga_menu,
                 deskripsi_menu = entity.deskripsi_menu

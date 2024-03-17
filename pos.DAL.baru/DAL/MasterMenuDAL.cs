@@ -78,34 +78,52 @@ public IEnumerable<MasterMenu> GetAll()
         }
     }
 
-    public void Insert(MasterMenu entity)
+    //public void Insert(MasterMenu entity)
+    //    {
+    //        using (SqlConnection conn = new SqlConnection(Helper.GetConnectionString()))
+    //        {
+    //            string storedProcedureName = "InsertMasterMenu";
+
+    //            using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
+    //            {
+    //                cmd.CommandType = CommandType.StoredProcedure;
+
+    //                // Add parameters
+    //                cmd.Parameters.AddWithValue("@nama_menu", entity.nama_menu);
+    //                cmd.Parameters.AddWithValue("@harga_menu", entity.harga_menu);
+    //                cmd.Parameters.AddWithValue("@deskripsi_menu", entity.deskripsi_menu);
+
+    //                // Open connection
+    //                conn.Open();
+
+    //                // Execute the command
+    //                int rowsAffected = cmd.ExecuteNonQuery();
+
+    //            }
+    //        }
+    //    }
+
+public void Insert(MasterMenu entity)
+    {
+        using (SqlConnection conn = new SqlConnection(Helper.GetConnectionString()))
         {
-            using (SqlConnection conn = new SqlConnection(Helper.GetConnectionString()))
-            {
-                string storedProcedureName = "InsertMasterMenu";
+            string storedProcedureName = "InsertMasterMenu";
 
-                using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
+            // Use Dapper's Execute method
+            conn.Execute(storedProcedureName,
+                new
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Add parameters
-                    cmd.Parameters.AddWithValue("@id_menu", entity.id_menu);
-                    cmd.Parameters.AddWithValue("@nama_menu", entity.nama_menu);
-                    cmd.Parameters.AddWithValue("@harga_menu", entity.harga_menu);
-                    cmd.Parameters.AddWithValue("@deskripsi_menu", entity.deskripsi_menu);
-
-                    // Open connection
-                    conn.Open();
-
-                    // Execute the command
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                }
-            }
+                    entity.nama_menu,
+                    entity.harga_menu,
+                    entity.deskripsi_menu
+                },
+                commandType: CommandType.StoredProcedure);
         }
+    }
 
 
-        public void Update(MasterMenu entity)
+
+    public void Update(MasterMenu entity)
         {
             using (SqlConnection conn = new SqlConnection(Helper.GetConnectionString()))
             {
