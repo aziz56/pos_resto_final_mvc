@@ -17,7 +17,10 @@ namespace pos.BLL
         }
         public void InsertPayment(DTO.TransaksiPenjualanDTO transaksiPenjualanDTO)
         {
-            _transaksiBLL.InsertPayment(transaksiPenjualanDTO);
+            var insertPayment = new BO.GetTransactionData();
+            {
+                //mapping
+            }
         }
         public BO.MasterMenu GetHargaByMenu(BO.MasterMenu masterMenu)
         {
