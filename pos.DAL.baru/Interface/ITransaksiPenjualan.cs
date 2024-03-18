@@ -7,9 +7,9 @@ namespace pos.DAL.Interface
 {
     public interface ITransaksiPenjualan : ICrud<TransaksiPenjualan>
     {
-        void InsertPayment(GetTransactionData getTransactionData);
+        void InsertPayment(TransactionData TransactionData);
         MasterMenu GetHargaByMenu(BO.MasterMenu masterMenu);
-        IEnumerable<BO.GetTransactionData> GetTransaksiPenjualan();
+        IEnumerable<TransactionData> GetTransaksiPenjualan();
 
 
     }

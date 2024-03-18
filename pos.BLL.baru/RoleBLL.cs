@@ -39,5 +39,6 @@ namespace pos.BLL
             }
             return list;
         }
+
     }
 }

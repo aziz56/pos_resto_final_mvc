@@ -16,21 +16,19 @@ namespace pos.DAL.DAL
         {
             return Helper.GetConnectionString();
         }
-        public void InsertPayment(GetTransactionData getTransactionData)
+        public void InsertPayment(TransactionData transactionData)
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
                 string strSql = @"sp_penjualan";
                 var param = new
                 {
-                    nama_pelanggan = getTransactionData.nama_pelanggan,
-                    no_meja = getTransactionData.no_meja,
-                    jumlah_pesanan = getTransactionData.jumlah_pesanan,
-                    harga_menu = getTransactionData.harga_menu,
-                    nama_menu = getTransactionData.nama_menu,
-                    amount = getTransactionData.amount
-
-
+                    nama_pelanggan = transactionData.nama_pelanggan,
+                    jumlah_pesanan = transactionData.jumlah_pesanan,
+                    harga_menu = transactionData.harga_menu,
+                    amount =transactionData.amount,
+                    id_menu = transactionData.id_menu,
+                    id_meja = transactionData.id_meja
                 };
                 conn.Execute(strSql, param, commandType: System.Data.CommandType.StoredProcedure);
             }
@@ -39,17 +37,17 @@ namespace pos.DAL.DAL
        public MasterMenu GetHargaByMenu(BO.MasterMenu masterMenu)
         {
             using SqlConnection conn = new SqlConnection(GetConnectionString());
-            string strSql = @"select harga_menu from MasterMenu where nama_menu = @nama_menu";
-            var param = new { nama_menu = masterMenu.nama_menu };
+            string strSql = @"select harga_menu from MasterMenu where id_menu = @id_menu";
+            var param = new { id_menu = masterMenu.id_menu };
             var result = conn.QueryFirstOrDefault<BO.MasterMenu>(strSql, param);
             return result;
         }
-        public IEnumerable<GetTransactionData> GetTransaksiPenjualan()
+        public IEnumerable<TransactionData> GetTransaksiPenjualan()
         {
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
                 string strSql = @"GetTransactionData";
-                var results = conn.Query<BO.GetTransactionData>(strSql);
+                var results = conn.Query<BO.TransactionData>(strSql);
                 return results;
             }
         }

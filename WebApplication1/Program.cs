@@ -17,6 +17,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IMasterMenuBLL, MasterMenuBLL>();
 builder.Services.AddScoped<IUserBLL, UserBLL>();
 builder.Services.AddScoped<IRoleBLL, RoleBLL>();
+builder.Services.AddScoped<ITransaksiBLL, TransaksiBLL>();
 
 
 var app = builder.Build();

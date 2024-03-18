@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pos.BO
+namespace pos.BLL.DTO
 {
-    public class GetTransactionData
+    public class TransactionDataDTO
     {
         public int id_penjualan { get; set; }
         public string nama_pelanggan { get; set; }
@@ -17,6 +17,8 @@ namespace pos.BO
         public decimal total_penjualan { get; set; }
         public decimal kembalian { get; set; }
         public decimal amount { get; set; }
+        public int id_menu { get; set; }
+        public int id_pelanggan { get; set; }
+        public int id_meja { get; set; }
     }
-
 }
