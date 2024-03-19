@@ -7,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("OwnerPolicy", policy => policy.RequireRole("Owner")); // Hanya pemilik yang bisa mengakses
+//    options.AddPolicy("KasirPolicy", policy => policy.RequireRole("Kasir")); // Hanya kasir yang bisa mengakses
+//});
+
 
 builder.Services.AddSession(options =>
 {
@@ -14,6 +20,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 builder.Services.AddScoped<IMasterMenuBLL, MasterMenuBLL>();
 builder.Services.AddScoped<IUserBLL, UserBLL>();
 builder.Services.AddScoped<IRoleBLL, RoleBLL>();

@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Add Category</h1>
+        <h1 class="h3 mb-0 text-gray-800">Payment</h1>
     </div>
 
     <div class="col-lg-12">
@@ -28,11 +28,11 @@
                             }
                         </select>
                     </div>
-                  @*   <div class="form-group">
+@*                     <div class="form-group">
                         <label for="harga_menu">Menu Price:</label>
                         <input type="text" class="form-control" name="harga_menu"
                                placeholder="Insert Harga Menu" readonly />
-                    </div> *@
+                    </div>  *@
                     <div class="form-group">
                         <label for="nama_pelanggan">Customer Name:</label>
                         <input type="text" class="form-control" name="nama_pelanggan"
@@ -59,3 +59,43 @@
         </div>
     </div>
 </div>
+@* <script>
+    $(document).ready(function () {
+        // Ketika pilihan menu berubah
+        $('select[name="id_menu"]').change(function () {
+            var selectedMenuId = $(this).val();
+
+            // Kirim permintaan AJAX untuk mendapatkan harga_menu berdasarkan id_menu yang dipilih
+            $.ajax({
+                url: '/TransaksiController/GetMenuPrice', // Ganti YourControllerName dengan nama controller Anda
+                type: 'GET',
+                data: { id_menu: selectedMenuId },
+                success: function (response) {
+                    // Mengatur nilai input harga_menu dengan harga yang diterima dari server
+                    $('input[name="harga_menu"]').val(response.price);
+                },
+                error: function () {
+                    console.log('Error fetching menu price');
+                }
+            });
+        });
+    });
+</script> *@
+@* <script>
+    $(document).ready(function () {
+        // Ketika pilihan menu berubah
+        $('#id_menu').change(function () {
+            var selectedMenu = $(this).find(':selected');
+            var hargaMenu = selectedMenu.data('harga');
+
+            // Mengatur nilai input harga_menu dengan harga yang ditemukan
+            $('input[name="harga_menu"]').val(hargaMenu);
+        });
+    });
+</script> *@
+
+
+
+
+
+

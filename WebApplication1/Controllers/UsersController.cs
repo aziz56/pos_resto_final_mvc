@@ -3,9 +3,11 @@ using pos.BLL.Interface;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using pos.BLL.DTO;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers
 {
+    //[Authorize(Policy = "OwnerPolicy")]
     public class UsersController : Controller
         
     {
@@ -82,7 +84,7 @@ namespace WebApplication1.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login","Users");
         }
         public IActionResult Register()
         {

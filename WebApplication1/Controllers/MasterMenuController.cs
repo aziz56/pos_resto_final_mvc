@@ -5,10 +5,12 @@ using pos.BLL.DTO;
 using System.Text.Json;
 
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace pos_resto.Controllers
 {
+    //[Authorize(Policy = "OwnerPolicy")]
     public class MasterMenuController : Controller
     {
         private readonly IMasterMenuBLL _masterMenu;
